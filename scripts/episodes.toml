@@ -1,0 +1,23 @@
+# Episode chain and drift rules, enforced by check_episodes.py.
+# Each episode directory is a full snapshot. Changes between consecutive
+# episodes must be limited to the files listed under that episode.
+
+chain = [
+    "episode-0-intro",
+    "episode-1-code-bundle",
+    "episode-2-task",
+    "episode-3-observability",
+    "episode-4-dcm",
+]
+
+# Files that must be byte-identical in every episode where they exist.
+# An episode can opt out by listing the file in its own `allowed`.
+invariant = ["sla_logic.py"]
+
+# Files (or directory prefixes ending in "/") each episode may add, change,
+# or remove relative to the previous episode. README.md is always allowed.
+[allowed]
+"episode-1-code-bundle" = ["job.py", "code_bundle.yml", "pyproject.toml", "uv.lock"]
+"episode-2-task" = ["job.py", "task.sql"]
+"episode-3-observability" = ["job.py", "fixtures/"]
+"episode-4-dcm" = ["job.py", "sla_logic.py", "tests/", "dcm/"]
